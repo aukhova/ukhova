@@ -13,13 +13,13 @@ using namespace std;
 
 Mat Show_gistogram(Mat& img, Mat& gray)
 {
-	//ðàçáèâàåì íà êàíàëû
+	//разбиваем на каналы
 	vector<Mat> bgr_planes;
 	split(img, bgr_planes);
 
 	vector<Mat> bgr_planes_gray;
 	split(gray, bgr_planes_gray);
-	//imshow("dddddd", bgr_planes_gray[0]);
+
 
 	// Establish the number of bins
 	int histSize = 256;
@@ -42,7 +42,7 @@ Mat Show_gistogram(Mat& img, Mat& gray)
 	int bin_w = cvRound((double)hist_w / histSize);
 
 	Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
-	//Mat histImageG(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+	
 
 	// Normalize the result to [ 0, histImage.rows ]
 	normalize(b_hist, b_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
@@ -70,24 +70,18 @@ Mat Show_gistogram(Mat& img, Mat& gray)
 	return histImage;
 }
 
-
 int main()
-{
-
-	
-
-
-	//îðèãèíàë
+{	//оригинал
 	Mat img = imread("C:/Users/Master/Desktop/ukhova_a_v/pencils_orig.jpg");
-	imshow("original", img);
+	//imshow("original", img);
 
-	// Êîíâåðòèðîåì RGB èçîáðàæåíèå â îòòåíêè ñåðîãî
+	// Конвертироем RGB изображение в оттенки серого
 	Mat gray;
 	cvtColor(img, gray, CV_BGR2GRAY);
-	imshow("original gray", gray);
+	//imshow("original gray", gray);
 
 
-	//êà÷åñòâî 90
+	//качество 90
 	vector<int> compression_params;
 	compression_params.push_back(IMWRITE_JPEG_QUALITY);
 	compression_params.push_back(90);
@@ -95,14 +89,14 @@ int main()
 
 	imwrite("pencils_90.jpg", img, compression_params);
 	Mat img90 = imread("C:/Users/Master/Desktop/ukhova_a_v/build4/pencils_90.jpg");
-	imshow("90", img90);
+	//imshow("90", img90);
 
-	// Êîíâåðòèðîåì RGB èçîáðàæåíèå â îòòåíêè ñåðîãî
+	// Конвертироем RGB изображение в оттенки серого
 	Mat gray90;
 	cvtColor(img90, gray90, CV_BGR2GRAY);
-	imshow("90 gray", gray90);
+	//imshow("90 gray", gray90);
 
-	//êà÷åñòâî 30
+	//качество 30
 	vector<int> compression_params2;
 	compression_params2.push_back(IMWRITE_JPEG_QUALITY);
 	compression_params2.push_back(30);
@@ -110,25 +104,69 @@ int main()
 
 	imwrite("pencils_30.jpg", img, compression_params2);
 	Mat img30 = imread("C:/Users/Master/Desktop/ukhova_a_v/build4/pencils_30.jpg");
-	imshow("30", img30);
+	//imshow("30", img30);
 
-	// Êîíâåðòèðîåì RGB èçîáðàæåíèå â îòòåíêè ñåðîãî
+	// Конвертироем RGB изображение в оттенки серого
 	Mat gray30;
 	cvtColor(img30, gray30, CV_BGR2GRAY);
-	imshow("30 gray", gray30);
+	//imshow("30 gray", gray30);
+
 
     Mat histImage,histImage90, histImage30;
 
-    histImage=Show_gistogram(img,gray);
-    imshow("histImage original", histImage);
+	histImage=Show_gistogram(img,gray);
+	//imshow("histImage original", histImage);
 
-    histImage90 = Show_gistogram(img90, gray90);
-    imshow("histImage 90", histImage90);
 
-    histImage30 = Show_gistogram(img30, gray30);
-    imshow("histImage 30", histImage30);
+	histImage90 = Show_gistogram(img90, gray90);
+	//imshow("histImage 90", histImage90);
+
+
+	histImage30 = Show_gistogram(img30, gray30);
+	//imshow("histImage 30", histImage30);
+
+	int height = img.rows;
+	int width = img.cols + 10 + histImage.cols;
+
+	Mat image_orig = Mat(height, width, img.type());
+
+	Rect imageROI = Rect(0, 0, img.cols, img.rows);
+	img.copyTo(image_orig(imageROI));
+
+	Rect imageROIH = Rect(0, 0, histImage.cols, histImage.rows);
+	
+	imageROIH.x = img.cols+10;
+	imageROIH.y = 0;
+	histImage.copyTo(image_orig(imageROIH));
+	imshow("image_orig", image_orig);
+
+
+	Mat image_90 = Mat(height, width, img90.type());
+
+	imageROIH.x = 0;
+	imageROIH.y = 0;
+	img90.copyTo(image_90(imageROI));
+
+	imageROIH.x = img90.cols + 10;
+	imageROIH.y = 0;
+	histImage90.copyTo(image_90(imageROIH));
+	imshow("image_90", image_90);
+
+
+	Mat image_30 = Mat(height, width, img30.type());
+
+	imageROIH.x = 0;
+	imageROIH.y = 0;
+	img30.copyTo(image_30(imageROI));
+
+	imageROIH.x = img30.cols + 10;
+	imageROIH.y = 0;
+	histImage30.copyTo(image_30(imageROIH));
+	imshow("image_30", image_30);
+
 
     waitKey(0);
+
 	return 0;
 }
 
