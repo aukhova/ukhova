@@ -21,3 +21,6 @@ target_link_libraries(Lab_2 ${OpenCV_LIBS})
 
 add_executable(Lab_3 Lab_3.cpp)
 target_link_libraries(Lab_3 ${OpenCV_LIBS})
+
+add_executable(k_r k_r.cpp)
+target_link_libraries(k_r ${OpenCV_LIBS})
