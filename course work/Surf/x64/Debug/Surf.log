@@ -1,0 +1,5 @@
+﻿  main.cpp
+  The contents of <filesystem> are available only with C++17 or later.
+C:\Users\Master\Desktop\курсовая\Surf\main.cpp(294,42): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Master\Desktop\курсовая\Surf\main.cpp(295,40): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  Surf.vcxproj -> C:\Users\Master\Desktop\курсовая\Surf\x64\Debug\Surf.exe

@@ -1,0 +1,4 @@
+F:\projs\Aleksandra\opencv\itnotesblog_ru\step01\Surf\x64\Debug\Surf.exe
+F:\projs\Aleksandra\opencv\itnotesblog_ru\step01\Surf\x64\Debug\Surf.pdb
+C:\Users\Master\Desktop\курсовая\Surf\x64\Debug\Surf.exe
+C:\Users\Master\Desktop\курсовая\Surf\x64\Debug\Surf.pdb
